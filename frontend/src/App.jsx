@@ -375,7 +375,7 @@ const handleExportExcel = async () => {
     }
 
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = "SmartStock";
+    workbook.creator = "Wr. Tati";
     workbook.created = new Date();
 
     const worksheet = workbook.addWorksheet("Data Produk");
@@ -383,7 +383,7 @@ const handleExportExcel = async () => {
     // Judul laporan
     worksheet.mergeCells("A1:I1");
     const title = worksheet.getCell("A1");
-    title.value = "DATA PRODUK SMARTSTOCK";
+    title.value = "DATA PRODUK Wr. Tati";
     title.font = {
       name: "Arial",
       size: 16,
@@ -403,7 +403,7 @@ const handleExportExcel = async () => {
 
     worksheet.mergeCells("A2:I2");
     worksheet.getCell("A2").value =
-      `Laporan Inventaris SmartStock | ${new Date().toLocaleDateString("id-ID")}`;
+      `Laporan Inventaris Wr. Tati | ${new Date().toLocaleDateString("id-ID")}`;
     worksheet.getCell("A2").alignment = {
       horizontal: "center",
     };
@@ -671,7 +671,7 @@ const handleExportExcel = async () => {
     worksheet.pageSetup.printArea = `A1:I${worksheet.rowCount}`;
 
     worksheet.headerFooter.oddFooter =
-  "&LSmartStock - Laporan Inventaris&RHalaman &P dari &N";
+  "&Wr. Tati - Laporan Inventaris&RHalaman &P dari &N";
 
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
@@ -874,7 +874,7 @@ const maxStock = Math.max(
       📦
     </div>
     <div>
-      <h1 className="text-lg font-bold tracking-wide">SmartStock</h1>
+      <h1 className="text-lg font-bold tracking-wide">Wr. Tati</h1>
       <p className="text-xs text-slate-400">Inventory Management</p>
     </div>
   </div>
@@ -910,7 +910,7 @@ const maxStock = Math.max(
     </h2>
 
     <p className="mt-1 text-sm text-slate-400">
-      Selamat datang di SmartStock Inventory System
+      Selamat datang di Wr. Tati Inventory System
     </p>
   </div>
 

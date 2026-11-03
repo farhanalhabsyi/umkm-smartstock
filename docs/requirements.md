@@ -1,4 +1,4 @@
-﻿# UMKM SmartStock
+﻿# UMKM Wr. Tati
 
 Sistem Informasi Manajemen Stok Barang Berbasis Website.
 
