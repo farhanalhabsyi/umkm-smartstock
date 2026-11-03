@@ -1,3 +1,4 @@
+
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 const express = require("express");
@@ -6,11 +7,11 @@ const stockRoutes = require("./routes/stockRoutes");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
 const prisma = require("./lib/prisma");
 
 app.use(cors());
 app.use(express.json());
+
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/stock", stockRoutes);
@@ -27,7 +28,7 @@ app.get("/api/test-db", async (req, res) => {
 
     res.json({
       success: true,
-      message: "Koneksi database MySQL berhasil!",
+      message: "Koneksi database berhasil!",
     });
   } catch (error) {
     console.error("Database error:", error);
@@ -39,6 +40,12 @@ app.get("/api/test-db", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
