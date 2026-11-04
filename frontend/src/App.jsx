@@ -24,6 +24,7 @@ function formatRupiah(value) {
 }
 
 function App() {
+  const [activePage, setActivePage] = useState("dashboard");
   const [products, setProducts] = useState([]);
   const [archivedProducts, setArchivedProducts] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
@@ -883,19 +884,44 @@ const maxStock = Math.max(
     Menu utama
   </p>
 
-  <div className="rounded-xl border border-blue-400/10 bg-linear-to-r from-blue-500/20 to-violet-500/10 px-4 py-3 font-semibold text-blue-300 shadow-sm">
-    ▦ &nbsp; Dashboard
-  </div>
+  <button
+  type="button"
+  onClick={() => setActivePage("dashboard")}
+  className={`w-full rounded-xl px-4 py-3 text-left font-semibold transition ${
+    activePage === "dashboard"
+      ? "border border-blue-400/10 bg-linear-to-r from-blue-500/20 to-violet-500/10 text-blue-300 shadow-sm"
+      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+  }`}
+>
+  ▦ &nbsp; Dashboard
+</button>
 
-  <div className="mt-3 flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-slate-400 transition hover:bg-slate-800 hover:text-white">
-    <span>📦</span>
-    <span>Produk</span>
-  </div>
+<button
+  type="button"
+  onClick={() => setActivePage("products")}
+  className={`mt-3 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition ${
+    activePage === "products"
+      ? "border border-blue-400/10 bg-linear-to-r from-blue-500/20 to-violet-500/10 font-semibold text-blue-300"
+      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+  }`}
+>
+  <span>📦</span>
+  <span>Produk</span>
+</button>
 
-  <div className="mt-1 flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-slate-400 transition hover:bg-slate-800 hover:text-white">
-    <span>🗂️</span>
-    <span>Kategori</span>
-  </div>
+<button
+  type="button"
+  onClick={() => setActivePage("categories")}
+  className={`mt-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition ${
+    activePage === "categories"
+      ? "border border-blue-400/10 bg-linear-to-r from-blue-500/20 to-violet-500/10 font-semibold text-blue-300"
+      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+  }`}
+>
+  <span>🗂️</span>
+  <span>Kategori</span>
+</button>
+
 </aside>
 
       <main className="min-h-screen md:ml-64">    
@@ -906,8 +932,12 @@ const maxStock = Math.max(
     </p>
 
     <h2 className="mt-1 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-      Dashboard
-    </h2>
+  {activePage === "dashboard"
+    ? "Dashboard"
+    : activePage === "products"
+    ? "Produk"
+    : "Kategori"}
+</h2>
 
     <p className="mt-1 text-sm text-slate-400">
       Selamat datang di Wr. Tati Inventory System
@@ -923,7 +953,8 @@ const maxStock = Math.max(
   </button>
 </header>
 
-        <div className="space-y-6 p-5 sm:p-8">
+        {activePage === "dashboard" && (
+  <div className="space-y-6 p-5 sm:p-8">
           {error && (
             <div
               role="alert"
@@ -1694,6 +1725,57 @@ const maxStock = Math.max(
   </section>
 )}
         </div>
+        )}
+                {activePage === "products" && (
+          <div className="space-y-6 p-5 sm:p-8">
+            {error && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+                {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">
+                {success}
+              </div>
+            )}
+
+            <section className="rounded-2xl border border-slate-700 bg-[#151E33] p-6">
+              <h3 className="text-lg font-bold text-white">
+                Manajemen Produk
+              </h3>
+              <p className="mt-1 text-sm text-slate-400">
+                Kelola produk, tambah barang, edit, hapus, dan ekspor data.
+              </p>
+
+              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <StatCard
+                  icon="📦"
+                  label="Total Produk"
+                  value={loading ? "..." : products.length}
+                  description="Produk aktif terdaftar"
+                  color="emerald"
+                />
+
+                <StatCard
+                  icon="⚠️"
+                  label="Stok Menipis"
+                  value={loading ? "..." : lowStockProducts.length}
+                  description="Produk perlu diperiksa"
+                  color="amber"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActivePage("dashboard")}
+                className="mt-5 rounded-xl bg-slate-700 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-600"
+              >
+                Kembali ke Dashboard
+              </button>
+            </section>
+          </div>
+        )}
       </main>
     </div>
   );
