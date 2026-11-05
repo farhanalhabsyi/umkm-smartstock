@@ -953,7 +953,7 @@ const maxStock = Math.max(
   </button>
 </header>
 
-        {activePage === "dashboard" && (
+        {(activePage === "dashboard" || activePage === "products") && (
   <div className="space-y-6 p-5 sm:p-8">
           {error && (
             <div
@@ -972,7 +972,7 @@ const maxStock = Math.max(
               {success}
             </div>
           )}
-
+          {activePage === "dashboard" && (
           <section>
   <h3 className="mb-4 text-lg font-bold">Ringkasan Inventaris</h3>
 
@@ -1042,7 +1042,8 @@ const maxStock = Math.max(
     />
   </div>
 </section>
-
+          )}
+{activePage === "dashboard" && (
 <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10">
   <div className="mb-3 flex items-center justify-between">
     <div>
@@ -1076,7 +1077,9 @@ const maxStock = Math.max(
       : `${safeStockProducts.length} dari ${products.length} produk memiliki stok aman`}
   </p>
 </section>
+)}
 
+{activePage === "dashboard" && (
 <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10">
   <div className="mb-5">
     <h3 className="font-bold text-white">
@@ -1120,7 +1123,9 @@ const maxStock = Math.max(
     </div>
   )}
 </section>
+)}
 
+{activePage === "dashboard" && (
           <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10 sm:p-6">
             <div>
               <h3 className="text-lg font-bold text-white">Pergerakan Stok</h3>
@@ -1198,7 +1203,9 @@ const maxStock = Math.max(
               </div>
             </form>
           </section>
+            )}
 
+          {activePage === "products" && (
           <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -1588,7 +1595,9 @@ const maxStock = Math.max(
               )}
             </div>
           </section>
+          )}
           
+          {activePage === "dashboard" && (
           <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10 sm:p-6">
             <h3 className="text-lg font-bold text-white">Riwayat Pergerakan Stok</h3>
             <p className="mt-1 text-sm text-slate-400">
@@ -1659,8 +1668,9 @@ const maxStock = Math.max(
               </table>
             </div>
           </section>
+          )}
 
-          {lowStockProducts.length > 0 && (
+          {activePage === "dashboard" && lowStockProducts.length > 0 && (
   <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
     <div className="mb-4 flex items-center justify-between">
       <div>
@@ -1724,55 +1734,50 @@ const maxStock = Math.max(
     </div>
   </section>
 )}
+
         </div>
         )}
-                {activePage === "products" && (
+
+        {activePage === "categories" && (
           <div className="space-y-6 p-5 sm:p-8">
-            {error && (
-              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
-                {error}
-              </div>
-            )}
-
-            {success && (
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">
-                {success}
-              </div>
-            )}
-
-            <section className="rounded-2xl border border-slate-700 bg-[#151E33] p-6">
-              <h3 className="text-lg font-bold text-white">
-                Manajemen Produk
-              </h3>
-              <p className="mt-1 text-sm text-slate-400">
-                Kelola produk, tambah barang, edit, hapus, dan ekspor data.
-              </p>
-
-              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <StatCard
-                  icon="📦"
-                  label="Total Produk"
-                  value={loading ? "..." : products.length}
-                  description="Produk aktif terdaftar"
-                  color="emerald"
-                />
-
-                <StatCard
-                  icon="⚠️"
-                  label="Stok Menipis"
-                  value={loading ? "..." : lowStockProducts.length}
-                  description="Produk perlu diperiksa"
-                  color="amber"
-                />
+            <section className="rounded-2xl border border-slate-700/70 bg-[#151E33] p-5 shadow-lg shadow-black/10 sm:p-6">
+              <div className="mb-5">
+                <h3 className="text-lg font-bold text-white">
+                  Manajemen Kategori
+                </h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Daftar kategori produk yang tersedia di SmartStock.
+                </p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setActivePage("dashboard")}
-                className="mt-5 rounded-xl bg-slate-700 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-600"
-              >
-                Kembali ke Dashboard
-              </button>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {categories.map((category) => {
+                  const totalProduk = products.filter(
+                    (product) =>
+                      Number(product.categoryId) === Number(category.id) ||
+                      Number(product.category?.id) === Number(category.id)
+                  ).length;
+
+                  return (
+                    <div
+                      key={category.id}
+                      className="rounded-2xl border border-slate-700 bg-[#10172A] p-5"
+                    >
+                      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-2xl">
+                        🗂️
+                      </div>
+
+                      <h4 className="font-bold text-white">
+                        {category.nama}
+                      </h4>
+
+                      <p className="mt-2 text-sm text-slate-400">
+                        {totalProduk} produk terdaftar
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </section>
           </div>
         )}
