@@ -1216,6 +1216,28 @@ const maxStock = Math.max(
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h3 className="text-lg font-bold text-white">Daftar Produk</h3>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+  <button
+    type="button"
+    onClick={() => setSelectedCategoryId(null)}
+    className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+      selectedCategoryId === null
+        ? "bg-blue-600 text-white"
+        : "border border-slate-700 bg-[#10172A] text-slate-300 hover:border-blue-500"
+    }`}
+  >
+    Semua Produk
+  </button>
+
+  {selectedCategoryId !== null && (
+    <span className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-sm text-blue-300">
+      Kategori: {categories.find(
+        (category) =>
+          Number(category.id) === Number(selectedCategoryId)
+      )?.nama ?? "Dipilih"}
+    </span>
+  )}
+</div>
                 <div className="mb-4">
                 <input
                   type="text"
