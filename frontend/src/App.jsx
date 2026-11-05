@@ -26,6 +26,7 @@ function formatRupiah(value) {
 function App() {
   const [activePage, setActivePage] = useState("dashboard");
   const [products, setProducts] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [archivedProducts, setArchivedProducts] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -821,7 +822,12 @@ const filteredProducts = products.filter((product) => {
     (stockFilter === "MENIPIS" && lowStock) ||
     (stockFilter === "AMAN" && !lowStock);
 
-  return matchesSearch && matchesStock;
+  const matchesCategory =
+    selectedCategoryId === null ||
+    Number(product.categoryId ?? product.category?.id) ===
+      Number(selectedCategoryId);
+
+  return matchesSearch && matchesStock && matchesCategory;
 });
 
 const lowStockProducts = products.filter(
@@ -1759,10 +1765,15 @@ const maxStock = Math.max(
                   ).length;
 
                   return (
-                    <div
-                      key={category.id}
-                      className="rounded-2xl border border-slate-700 bg-[#10172A] p-5"
-                    >
+                    <button
+  key={category.id}
+  type="button"
+  onClick={() => {
+    setSelectedCategoryId(category.id);
+    setActivePage("products");
+  }}
+  className="w-full rounded-2xl border border-slate-700 bg-[#10172A] p-5 text-left transition hover:border-blue-500 hover:bg-[#192642] hover:shadow-lg hover:shadow-blue-500/10"
+>
                       <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-2xl">
                         🗂️
                       </div>
@@ -1774,7 +1785,7 @@ const maxStock = Math.max(
                       <p className="mt-2 text-sm text-slate-400">
                         {totalProduk} produk terdaftar
                       </p>
-                    </div>
+                    </button>
                   );
                 })}
               </div>
