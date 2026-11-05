@@ -377,7 +377,7 @@ const handleExportExcel = async () => {
     }
 
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = "Wr. Tati";
+    workbook.creator = "SmartStock";
     workbook.created = new Date();
 
     const worksheet = workbook.addWorksheet("Data Produk");
@@ -881,8 +881,8 @@ const maxStock = Math.max(
       📦
     </div>
     <div>
-      <h1 className="text-lg font-bold tracking-wide">Wr. Tati</h1>
-      <p className="text-xs text-slate-400">Inventory Management</p>
+      <h1 className="text-lg font-bold tracking-wide">SmartStock</h1>
+      <p className="text-xs text-slate-400">Inventory Management System</p>
     </div>
   </div>
 
@@ -946,7 +946,7 @@ const maxStock = Math.max(
 </h2>
 
     <p className="mt-1 text-sm text-slate-400">
-      Selamat datang di Wr. Tati Inventory System
+      Selamat datang di SmartStock Inventory Management System
     </p>
   </div>
 
